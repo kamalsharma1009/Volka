@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VOLKA - Premium Packaged Drinking Water</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js for interactivity -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <!-- Font Awesome for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="https://i.ibb.co/Lz71Hr8H/water-logo.png"
+      type="image/png"
+      sizes="16x16"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+    <script>
+      (function () {
+        emailjs.init("HnKNmoI39FkXNORTq");
+      })();
+    </script>
+
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+      :root {
+        --primary-blue: #003399;
+        --secondary-blue: #0077cc;
+        --white: #ffffff;
+        --light-gray: #f8f9fa;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Open Sans", sans-serif;
+        color: #333;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+      }
+
+      /* Loading Animation */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-blue);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .splash {
+        position: absolute;
+        width: 50vmin;
+        height: 50vmin;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 45% 47% 50% 43%;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+        animation: splash 2s ease-in-out forwards;
+      }
+
+      @keyframes splash {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0);
+        }
+        15% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.2);
+        }
+        50% {
+          opacity: 0.8;
+          transform: translate(-50%, -50%) scale(1.5);
+        }
+        80% {
+          opacity: 0.5;
+          transform: translate(-50%, -50%) scale(2);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(2.5);
+        }
+      }
+
+      .logo-loading {
+        position: relative;
+        z-index: 10;
+        font-size: 3rem;
+        font-weight: 700;
+        color: white;
+        opacity: 0;
+        animation: fadeIn 1s ease-in-out 0.5s forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Navigation */
+      .nav-scrolled {
+        background: rgba(0, 51, 153, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+
+      /* Hero Section */
+      .hero-bg {
+        background: linear-gradient(
+            135deg,
+            rgba(0, 51, 153, 0.8) 0%,
+            rgba(0, 119, 204, 0.8) 100%
+          ),
+          url(assets/hero.jpeg) no-repeat center center/cover;
+      }
+
+      /* New water bubble animation */
+      .water-bubble {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        opacity: 0;
+        animation: bubbleUp linear infinite;
+      }
+
+      @keyframes bubbleUp {
+        0% {
+          transform: translateY(100vh) scale(0.5);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.5;
+        }
+        50% {
+          opacity: 0.7;
+        }
+        90% {
+          opacity: 0.4;
+        }
+        100% {
+          transform: translateY(-100px) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      /* Animated Wave */
+      .wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100px;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="%23ffffff"></path></svg>');
+        background-size: 1200px 100px;
+        animation: wave 10s linear infinite;
+      }
+
+      .wave:nth-child(2) {
+        animation-delay: -5s;
+        opacity: 0.5;
+      }
+
+      @keyframes wave {
+        0% {
+          background-position-x: 0;
+        }
+        100% {
+          background-position-x: 1200px;
+        }
+      }
+
+      /* Floating Animation */
+      .float {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      /* Product Cards */
+      .product-card {
+        transition: all 0.4s ease;
+        transform-style: preserve-3d;
+      }
+
+      .product-card:hover {
+        transform: translateY(-15px) rotateX(10deg);
+        box-shadow: 0 25px 40px rgba(0, 51, 153, 0.15);
+      }
+
+      /* Benefit Cards */
+      .benefit-card {
+        transition: all 0.3s ease;
+        perspective: 1000px;
+      }
+
+      .benefit-card:hover {
+        transform: translateY(-10px) scale(1.02);
+      }
+
+      .benefit-icon {
+        transition: all 0.5s ease;
+      }
+
+      .benefit-card:hover .benefit-icon {
+        transform: rotateY(360deg);
+      }
+
+      /* Plant Images */
+      .plant-image {
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        filter: grayscale(30%);
+      }
+
+      .plant-image:hover {
+        filter: grayscale(0%);
+        transform: scale(1.05);
+      }
+
+      /* Form Elements */
+      .form-input {
+        transition: all 0.3s ease;
+        border: 2px solid #e2e8f0;
+      }
+
+      .form-input:focus {
+        border-color: var(--secondary-blue);
+        box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.2);
+      }
+
+      /* Animations on scroll */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Water bottle pouring animation */
+      .bottle-pour {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .bottle-pour::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 40%;
+        width: 20%;
+        height: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.8),
+          rgba(255, 255, 255, 0.4)
+        );
+        border-radius: 0 0 5px 5px;
+        transition: height 1.5s ease;
+      }
+
+      .bottle-pour:hover::after {
+        height: 100%;
+      }
+
+      /* Particle effect */
+      .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        opacity: 0;
+      }
+
+      /* Glow effect */
+      .glow {
+        box-shadow: 0 0 20px rgba(0, 119, 204, 0.4);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 20px rgba(0, 119, 204, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 30px rgba(0, 119, 204, 0.8);
+        }
+        100% {
+          box-shadow: 0 0 20px rgba(0, 119, 204, 0.4);
+        }
+      }
+
+      /* Company Logos */
+      .company-logo {
+        height: 60px;
+        object-fit: contain;
+      }
+
+      /* Parent Company Section */
+      .parent-company {
+        background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      }
+
+      /* UV Treatment Feature */
+      .uv-feature {
+        background: linear-gradient(135deg, #003399 0%, #0077cc 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 1rem;
+        margin: 3rem 0;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 51, 153, 0.2);
+      }
+
+      /* Upcoming Products */
+      .upcoming-product {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .upcoming-product img {
+        filter: blur(8px);
+        transition: filter 0.5s ease;
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .upcoming-product:hover img {
+        filter: blur(4px);
+      }
+
+      .upcoming-product-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 51, 153, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .upcoming-product:hover .upcoming-product-overlay {
+        opacity: 1;
+      }
+
+      /* Map Container */
+      .map-container {
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        height: 300px;
+      }
+
+      .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      /* Transition helper for temporary overlay */
+      .temp-overlay.show {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <!-- Loading Screen with Water Splash Effect -->
+    <div id="loading-screen">
+      <div
+        class="splash"
+        style="top: 50%; left: 50%; animation-delay: 0s"
+      ></div>
+      <div
+        class="splash"
+        style="top: 40%; left: 40%; animation-delay: 0.2s"
+      ></div>
+      <div
+        class="splash"
+        style="top: 60%; left: 60%; animation-delay: 0.4s"
+      ></div>
+      <img
+        src="assets/volka-white.png"
+        alt="VOLKA Logo"
+        class="mx-auto mb-4 fade-in h-24 md:h-32"
+      />
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full py-4 z-50 transition-all duration-500">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <a href="#" class="text-2xl font-bold text-white flex items-center">
+          <img
+            src="assets/volka-white.png"
+            alt="VOLKA Logo"
+            class="company-logo mr-2"
+          />
+        </a>
+        <div class="hidden md:flex space-x-8">
+          <a href="#home" class="text-white hover:text-blue-200 transition"
+            >Home</a
+          >
+          <a href="#about" class="text-white hover:text-blue-200 transition"
+            >About</a
+          >
+          <a href="#products" class="text-white hover:text-blue-200 transition"
+            >Products</a
+          >
+          <a href="#benefits" class="text-white hover:text-blue-200 transition"
+            >Benefits</a
+          >
+          <a href="#plant" class="text-white hover:text-blue-200 transition"
+            >Our Plant</a
+          >
+          <a href="#parent" class="text-white hover:text-blue-200 transition"
+            >Parent Company</a
+          >
+          <a href="#contact" class="text-white hover:text-blue-200 transition"
+            >Contact</a
+          >
+        </div>
+        <button id="mobile-menu-button" class="md:hidden text-white">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="mobile-menu fixed inset-0 bg-blue-900 z-40 pt-20 px-6 md:hidden"
+    >
+      <div class="flex flex-col space-y-6">
+        <a href="#home" class="text-white text-xl py-2 border-b border-blue-700"
+          >Home</a
+        >
+        <a
+          href="#about"
+          class="text-white text-xl py-2 border-b border-blue-700"
+          >About</a
+        >
+        <a
+          href="#products"
+          class="text-white text-xl py-2 border-b border-blue-700"
+          >Products</a
+        >
+        <a
+          href="#benefits"
+          class="text-white text-xl py-2 border-b border-blue-700"
+          >Benefits</a
+        >
+        <a
+          href="#plant"
+          class="text-white text-xl py-2 border-b border-blue-700"
+          >Our Plant</a
+        >
+        <a
+          href="#parent"
+          class="text-white text-xl py-2 border-b border-blue-700"
+          >Parent Company</a
+        >
+        <a
+          href="#contact"
+          class="text-white text-xl py-2 border-b border-blue-700"
+          >Contact</a
+        >
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden pt-16"
+    >
+      <div id="water-bubbles-container" class="absolute inset-0"></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="wave"></div>
+        <div class="wave"></div>
+      </div>
+      <div class="container mx-auto px-4 text-center text-white z-10">
+        <img
+          src="assets/volka-white-large-logo.png"
+          alt="VOLKA Logo"
+          class="mx-auto mb-4 fade-in h-24 md:h-32"
+        />
+        <h4 class="text-xl md:text-2xl mb-8 fade-in">
+          Premium Packaged Drinking Water – The Clarity You Can Taste!
+        </h4>
+        <a
+          href="#products"
+          class="bg-white text-blue-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transform hover:scale-105 shadow-2xl inline-block"
+        >
+          Explore Products
+        </a>
+      </div>
+      <div
+        class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce"
+      >
+        <a href="#about" class="text-white text-4xl"
+          ><i class="fas fa-chevron-down"></i
+        ></a>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section
+      id="about"
+      class="py-20 bg-gradient-to-br from-blue-50 to-white relative overflow-hidden"
+    >
+      <div class="particles" id="about-particles"></div>
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10 fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-6">
+              About Us
+            </h2>
+            <p class="text-gray-700 text-lg leading-relaxed mb-6">
+              Sourced from pristine origins and meticulously purified through a
+              multi-stage filtration process, our packaged drinking water
+              delivers the crisp, clean taste you deserve. Every bottle of VOLKA
+              is free from impurities and rich in essential minerals.
+            </p>
+            <div class="flex space-x-4">
+              <div
+                class="bg-white p-4 rounded-xl shadow-md text-center w-1/3 transform transition hover:-translate-y-2"
+              >
+                <i class="fas fa-tint text-3xl text-blue-600 mb-2"></i>
+                <p class="font-semibold">Pure Water</p>
+              </div>
+              <div
+                class="bg-white p-4 rounded-xl shadow-md text-center w-1/3 transform transition hover:-translate-y-2"
+              >
+                <i class="fas fa-filter text-3xl text-blue-600 mb-2"></i>
+                <p class="font-semibold">Multi-Stage Filtration</p>
+              </div>
+              <div
+                class="bg-white p-4 rounded-xl shadow-md text-center w-1/3 transform transition hover:-translate-y-2"
+              >
+                <i class="fas fa-gem text-3xl text-blue-600 mb-2"></i>
+                <p class="font-semibold">Mineral Rich</p>
+              </div>
+            </div>
+          </div>
+          <div class="md:w-1/2 fade-in">
+            <div
+              class="rounded-2xl overflow-hidden shadow-2xl transform transition hover:scale-105"
+            >
+              <img
+                src="assets/about.jpeg"
+                alt="VOLKA Water Bottling Facility"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- UV Treatment Feature -->
+        <div class="uv-feature fade-in mt-16">
+          <div class="max-w-4xl mx-auto">
+            <i class="fas fa-virus-slash text-4xl mb-4"></i>
+            <h3 class="text-2xl md:text-3xl font-bold mb-4">
+              Advanced Water Treatment
+            </h3>
+            <p class="text-xl opacity-90">
+              Advance U.V. treatment for total bacterial disinfection to make
+              more pure water quality
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-white relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-4 fade-in"
+        >
+          Our Products
+        </h2>
+        <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12 fade-in">
+          Available in various sizes to meet your hydration needs
+        </p>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <!-- Product Cards -->
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden text-center p-6 bottle-pour"
+          >
+            <div class="mb-4">
+              <img
+                src="assets/250ml.png"
+                alt="250ml Bottle"
+                class="h-32 mx-auto float"
+              />
+            </div>
+            <h2 class="font-semibold text-lg text-blue-900">250ml</h2>
+          </div>
+
+          <!-- More product cards with similar structure -->
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden text-center p-6 bottle-pour"
+          >
+            <div class="mb-4">
+              <img
+                src="assets/500ml.png"
+                alt="500ml Bottle"
+                class="h-32 mx-auto float"
+              />
+            </div>
+            <h2 class="font-semibold text-lg text-blue-900">500ml</h2>
+          </div>
+
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden text-center p-6 bottle-pour"
+          >
+            <div class="mb-4">
+              <img
+                src="assets/1l.png"
+                alt="1L Bottle"
+                class="h-32 mx-auto float"
+              />
+            </div>
+            <h2 class="font-semibold text-lg text-blue-900">1L</h2>
+          </div>
+
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden text-center p-6 bottle-pour"
+          >
+            <div class="mb-4">
+              <img
+                src="assets/2l.png"
+                alt="2L Bottle"
+                class="h-32 mx-auto float"
+              />
+            </div>
+            <h2 class="font-semibold text-lg text-blue-900">2L</h2>
+          </div>
+
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden text-center p-6 bottle-pour"
+          >
+            <div class="mb-4">
+              <img
+                src="assets/5l.png"
+                alt="5L Bottle"
+                class="h-32 mx-auto float"
+              />
+            </div>
+            <h2 class="font-semibold text-lg text-blue-900">5L</h2>
+          </div>
+
+          <div
+            class="product-card bg-white rounded-2xl shadow-lg overflow-hidden text-center p-6 bottle-pour"
+          >
+            <div class="mb-4">
+              <img
+                src="assets/20l.png"
+                alt="20L Bottle"
+                class="h-32 mx-auto float"
+              />
+            </div>
+            <h2 class="font-semibold text-lg text-blue-900">20L</h2>
+          </div>
+        </div>
+
+        <!-- Upcoming Products Section -->
+        <div class="mt-20">
+          <h2
+            class="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-4 fade-in"
+          >
+            Coming Soon
+          </h2>
+          <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12 fade-in">
+            Exciting new products launching soon
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Upcoming Product 1 -->
+            <div class="upcoming-product fade-in">
+              <img src="assets/1l.png" alt="Premium Water Bottles" />
+              <div class="upcoming-product-overlay">
+                <div class="text-center text-white p-4">
+                  <h3 class="text-xl font-bold mb-2">Premium Water Bottles</h3>
+                  <p>Coming Soon</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Product 2 -->
+            <div class="upcoming-product fade-in">
+              <img src="assets/1l.png" alt="Soda Drinks" />
+              <div class="upcoming-product-overlay">
+                <div class="text-center text-white p-4">
+                  <h3 class="text-xl font-bold mb-2">Carbonated Soft Drink</h3>
+                  <p>Coming Soon</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section
+      id="benefits"
+      class="py-20 bg-gradient-to-tr from-blue-900 to-blue-700 text-white relative overflow-hidden"
+    >
+      <div class="particles" id="benefits-particles"></div>
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 fade-in">
+          Health Benefits
+        </h2>
+        <p class="text-center max-w-2xl mx-auto mb-12 opacity-90 fade-in">
+          VOLKA water is enriched with essential minerals for your health
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <!-- Benefit 1 -->
+          <div
+            class="benefit-card bg-blue-800 bg-opacity-30 backdrop-blur-md rounded-2xl p-8 border border-blue-700"
+          >
+            <div class="flex items-center mb-4">
+              <div class="bg-white p-3 rounded-full mr-4 benefit-icon">
+                <i class="fas fa-heart text-blue-600 text-2xl"></i>
+              </div>
+              <h3 class="text-xl font-bold">Calcium & Potassium</h3>
+            </div>
+            <p class="opacity-90">
+              Helps regulate fluid balance, muscle contractions, reduce blood
+              pressure, prevent osteoporosis & kidney stones.
+            </p>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div
+            class="benefit-card bg-blue-800 bg-opacity-30 backdrop-blur-md rounded-2xl p-8 border border-blue-700"
+          >
+            <div class="flex items-center mb-4">
+              <div class="bg-white p-3 rounded-full mr-4 benefit-icon">
+                <i class="fas fa-brain text-blue-600 text-2xl"></i>
+              </div>
+              <h3 class="text-xl font-bold">Magnesium</h3>
+            </div>
+            <p class="opacity-90">
+              Involved in biochemical reactions, boosts exercise performance,
+              reduces stress, prevents migraines, lowers blood pressure.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center fade-in">
+          <a
+            href="#contact"
+            class="bg-white text-blue-900 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-2xl inline-block"
+          >
+            Order Now
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Plant Section -->
+    <section id="plant" class="py-20 bg-white relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-4 fade-in"
+        >
+          Our Advanced Facility
+        </h2>
+        <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12 fade-in">
+          State-of-the-art manufacturing ensuring the highest quality standards
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Plant Images -->
+          <div class="rounded-2xl overflow-hidden shadow-xl relative group">
+            <img
+              src="assets/filling-unit.jpeg"
+              alt="Filling Unit"
+              class="w-full h-80 object-cover plant-image"
+              onclick="showTempOverlay(this)"
+            />
+            <div
+              class="absolute inset-0 bg-blue-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            >
+              <h3 class="text-xl font-bold text-white">Filling Unit</h3>
+            </div>
+            <div
+              class="temp-overlay bottom-0 absolute left-0 right-0 bg-blue-900 bg-opacity-80 text-white text-center py-2 text-lg opacity-0 transition-opacity pointer-events-none rounded-b-2xl"
+            ></div>
+          </div>
+
+          <div class="rounded-2xl overflow-hidden shadow-xl relative group">
+            <img
+              src="assets/blowing-unit.jpeg"
+              alt="Blowing Unit"
+              class="w-full h-80 object-cover plant-image"
+              onclick="showTempOverlay(this)"
+            />
+            <div
+              class="absolute inset-0 bg-blue-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            >
+              <h3 class="text-xl font-bold text-white">Blowing Unit</h3>
+            </div>
+            <div
+              class="temp-overlay bottom-0 absolute left-0 right-0 bg-blue-900 bg-opacity-80 text-white text-center py-2 text-lg opacity-0 transition-opacity pointer-events-none rounded-b-2xl"
+            ></div>
+          </div>
+
+          <div class="rounded-2xl overflow-hidden shadow-xl relative group">
+            <img
+              src="assets/micro-qc-lab.jpeg"
+              alt="Micro & Chemical QC Lab"
+              class="w-full h-80 object-cover plant-image"
+              onclick="showTempOverlay(this)"
+            />
+            <div
+              class="absolute inset-0 bg-blue-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            >
+              <h3 class="text-xl font-bold text-white">
+                Micro & Chemical QC Lab
+              </h3>
+            </div>
+            <div
+              class="temp-overlay bottom-0 absolute left-0 right-0 bg-blue-900 bg-opacity-80 text-white text-center py-2 text-lg opacity-0 transition-opacity pointer-events-none rounded-b-2xl"
+            ></div>
+          </div>
+
+          <div class="rounded-2xl overflow-hidden shadow-xl relative group">
+            <img
+              src="assets/filtration-minerals-dosing.jpeg"
+              alt="Filtration & Minerals Dosing"
+              class="w-full h-80 object-cover plant-image"
+              onclick="showTempOverlay(this)"
+            />
+            <div
+              class="absolute inset-0 bg-blue-900 bg-opacity-70 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+            >
+              <h3 class="text-xl font-bold text-white">
+                Filtration & Minerals Dosing
+              </h3>
+            </div>
+            <div
+              class="temp-overlay bottom-0 absolute left-0 right-0 bg-blue-900 bg-opacity-80 text-white text-center py-2 text-lg opacity-0 transition-opacity pointer-events-none rounded-b-2xl"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Parent Company Section -->
+    <section id="parent" class="py-20 parent-company relative overflow-hidden">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-4 fade-in"
+        >
+          Our Parent Company
+        </h2>
+        <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12 fade-in">
+          Manufactured with excellence by Kalpataru Industries
+        </p>
+
+        <div
+          class="flex flex-col md:flex-row items-center justify-center gap-10"
+        >
+          <div class="md:w-2/5 fade-in">
+            <div class="rounded-2xl overflow-hidden shadow-2xl">
+              <img
+                src="assets/factory-1.jpeg"
+                alt="Kalpataru Industries"
+                class="w-full h-auto"
+              />
+            </div>
+          </div>
+          <div class="md:w-3/5 fade-in">
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+              <img
+                src="assets/kalpataru-industries-large.png"
+                alt="Kalpataru Industries Logo"
+                class="company-logo mb-6"
+              />
+              <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                Kalpataru Industries is a renowned manufacturer with a
+                commitment to quality and excellence. With state-of-the-art
+                facilities and stringent quality control measures, we ensure
+                that every bottle of VOLKA meets the highest standards of purity
+                and safety.
+              </p>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="flex items-center">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-award text-blue-600"></i>
+                  </div>
+                  <p class="font-semibold">ISO Certified</p>
+                </div>
+                <div class="flex items-center">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-check-circle text-blue-600"></i>
+                  </div>
+                  <p class="font-semibold">Quality Assurance</p>
+                </div>
+                <div class="flex items-center">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-industry text-blue-600"></i>
+                  </div>
+                  <p class="font-semibold">Modern Facility</p>
+                </div>
+                <div class="flex items-center">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-flask text-blue-600"></i>
+                  </div>
+                  <p class="font-semibold">R&D Focused</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section
+      id="contact"
+      class="py-20 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden"
+    >
+      <div class="particles" id="contact-particles"></div>
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-blue-900 text-center mb-4 fade-in"
+        >
+          Contact Us
+        </h2>
+        <p class="text-gray-600 text-center max-w-2xl mx-auto mb-12 fade-in">
+          Get in touch with us for orders or inquiries
+        </p>
+
+        <div class="flex flex-col md:flex-row gap-12">
+          <div class="md:w-1/2 fade-in">
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+              <h3 class="text-xl font-bold text-blue-900 mb-6">
+                Contact Information
+              </h3>
+
+              <div class="space-y-6">
+                <div class="flex items-start">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-phone text-blue-600"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold">Customer Care</h4>
+                    <p class="text-gray-700">18008913540</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-envelope text-blue-600"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold">Email</h4>
+                    <p class="text-gray-700">contact@volka.co.in</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-industry text-blue-600"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold">Manufacturer</h4>
+                    <p class="text-gray-700">
+                      Proprietor: Mr. Shreyas Sunil Narde
+                    </p>
+                    <p class="text-gray-700">
+                      Address: Kalpataru Industries, Jaysingpur-Dharangutti
+                      road, Dharangutti 416102
+                    </p>
+                    <p class="text-gray-700">Contact: +91 8805632109</p>
+                    <p class="text-gray-700">
+                      Mail: connect.kalpataru@hotmail.com
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-start">
+                  <div class="bg-blue-100 p-3 rounded-full mr-4">
+                    <i class="fas fa-store text-blue-600"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold">Marketer</h4>
+                    <p class="text-gray-700">
+                      Proprietor: Mr. Amol Chandrakant Bedkale
+                    </p>
+                    <p class="text-gray-700">
+                      Address: Anvesh Foods & Beverages, Sangli, Maharashtra
+                    </p>
+                    <p class="text-gray-700">Contact: +91 96656 79009</p>
+                    <p class="text-gray-700">Mail: anvesh.bev@gmail.com</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map Section -->
+            <div class="mt-8 fade-in">
+              <h3 class="text-xl font-bold text-blue-900 mb-4">
+                Factory Location
+              </h3>
+              <div class="map-container">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3821.032981625918!2d74.5593367756838!3d16.74041590000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc11f004ba5ccc1%3A0x1badc757f951437f!2sKalptaru%20Industries!5e0!3m2!1sen!2sus!4v1725633928048!5m2!1sen!2sus"
+                  width="100%"
+                  height="300"
+                  style="border: 0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                >
+                </iframe>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:w-1/2 fade-in">
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+              <h3 class="text-xl font-bold text-blue-900 mb-6">
+                Send us a Message
+              </h3>
+
+              <form id="contactForm" class="space-y-4">
+                <div>
+                  <label for="name" class="block text-gray-700 mb-2"
+                    >Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    name="from_name"
+                    class="w-full px-4 py-3 rounded-lg form-input focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p id="nameError" class="text-red-500 text-sm mt-1 hidden">
+                    Please enter your name
+                  </p>
+                </div>
+
+                <div>
+                  <label for="email" class="block text-gray-700 mb-2"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    name="reply_to"
+                    class="w-full px-4 py-3 rounded-lg form-input focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p id="emailError" class="text-red-500 text-sm mt-1 hidden">
+                    Please enter a valid email
+                  </p>
+                </div>
+
+                <div>
+                  <label for="phone" class="block text-gray-700 mb-2"
+                    >Phone</label
+                  >
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    class="w-full px-4 py-3 rounded-lg form-input focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p id="phoneError" class="text-red-500 text-sm mt-1 hidden">
+                    Please enter a valid phone number
+                  </p>
+                </div>
+
+                <div>
+                  <label for="message" class="block text-gray-700 mb-2"
+                    >Message</label
+                  >
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="5"
+                    class="w-full px-4 py-3 rounded-lg form-input focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                  <p id="messageError" class="text-red-500 text-sm mt-1 hidden">
+                    Please enter your message
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  id="sendButton"
+                  class="w-full bg-blue-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-all transform hover:scale-105 glow flex justify-center items-center"
+                >
+                  <span id="btnText">Send Message</span>
+                  <svg
+                    id="btnSpinner"
+                    class="animate-spin ml-3 h-5 w-5 text-white hidden"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4l3-3-3-3v4a12 12 0 00-9 9h4z"
+                    ></path>
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <!-- Logo container -->
+          <div
+            class="flex justify-center md:justify-start items-center space-x-4 mb-6 md:mb-0 w-full md:w-auto"
+          >
+            <img
+              src="assets/volka-white-large-logo.png"
+              alt="VOLKA Logo"
+              class="company-logo"
+            />
+            <img
+              src="assets/kalpataru-white-logo.png"
+              alt="Kalpataru Logo"
+              class="company-logo"
+            />
+          </div>
+
+          <!-- Social icons -->
+          <div class="flex space-x-6 mb-6 md:mb-0">
+            <a
+              href="https://www.facebook.com/people/Volka-Mineral-Water/61580440516205/"
+              class="text-white hover:text-blue-200 transition transform hover:scale-125"
+            >
+              <i class="fab fa-facebook text-xl"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/kalpataru-industries-07004b383/"
+              class="text-white hover:text-blue-200 transition transform hover:scale-125"
+            >
+              <i class="fab fa-linkedin-in text-xl"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/volka_with_added_minerals/"
+              class="text-white hover:text-blue-200 transition transform hover:scale-125"
+            >
+              <i class="fab fa-instagram text-xl"></i>
+            </a>
+          </div>
+          <!-- Footer copyright text -->
+          <div class="text-center md:text-right w-full md:w-auto opacity-80">
+            <p>© 2025 VOLKA Packaged Drinking Water. All rights reserved.</p>
+            <p class="text-sm mt-1">Manufactured by Kalpataru Industries</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div
+      id="successModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden"
+    >
+      <div
+        class="bg-white rounded-2xl p-8 max-w-md mx-4 transform transition-all scale-95 opacity-0"
+        id="modalContent"
+      >
+        <div class="text-center">
+          <div class="bg-green-100 p-3 rounded-full inline-block mb-4">
+            <i class="fas fa-check text-green-600 text-3xl"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-2">Message Sent!</h3>
+          <p class="text-gray-600 mb-6">
+            Thank you for contacting us. We'll get back to you soon.
+          </p>
+          <button
+            onclick="closeModal()"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Loading animation
+      document.addEventListener("DOMContentLoaded", function () {
+        const loadingScreen = document.getElementById("loading-screen");
+
+        // Simulate loading delay
+        setTimeout(() => {
+          loadingScreen.style.opacity = "0";
+          setTimeout(() => {
+            loadingScreen.style.display = "none";
+            initializeAnimations();
+          }, 500);
+        }, 2000);
+
+        // Create water bubbles in hero section
+        createWaterBubbles();
+
+        // Initialize particle effects
+        createParticles("about-particles", 30);
+        createParticles("benefits-particles", 20);
+        createParticles("contact-particles", 25);
+
+        // Navbar scroll effect
+        window.addEventListener("scroll", function () {
+          const navbar = document.getElementById("navbar");
+          if (window.scrollY > 50) {
+            navbar.classList.add("nav-scrolled");
+          } else {
+            navbar.classList.remove("nav-scrolled");
+          }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        mobileMenuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("open");
+        });
+
+        // Close mobile menu when clicking on links
+        const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+        mobileMenuLinks.forEach((link) => {
+          link.addEventListener("click", function () {
+            mobileMenu.classList.remove("open");
+          });
+        });
+
+        // Form validation
+        document
+          .getElementById("contactForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let isValid = true;
+            const name = document.getElementById("name");
+            const email = document.getElementById("email");
+            const phone = document.getElementById("phone");
+            const message = document.getElementById("message");
+
+            // Reset error messages
+            document.getElementById("nameError").classList.add("hidden");
+            document.getElementById("emailError").classList.add("hidden");
+            document.getElementById("phoneError").classList.add("hidden");
+            document.getElementById("messageError").classList.add("hidden");
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phonePattern = /^[0-9]{10}$/;
+
+            if (!name.value.trim()) {
+              document.getElementById("nameError").classList.remove("hidden");
+              isValid = false;
+            }
+            if (!emailPattern.test(email.value)) {
+              document.getElementById("emailError").classList.remove("hidden");
+              isValid = false;
+            }
+            if (phone.value && !phonePattern.test(phone.value)) {
+              document.getElementById("phoneError").classList.remove("hidden");
+              isValid = false;
+            }
+            if (!message.value.trim()) {
+              document
+                .getElementById("messageError")
+                .classList.remove("hidden");
+              isValid = false;
+            }
+
+            if (!isValid) return;
+
+            const sendButton = document.getElementById("sendButton");
+            const btnText = document.getElementById("btnText");
+            const btnSpinner = document.getElementById("btnSpinner");
+
+            // Show spinner and disable button
+            btnText.style.display = "none";
+            btnSpinner.classList.remove("hidden");
+            sendButton.disabled = true;
+
+            // Send email with EmailJS
+            emailjs.sendForm("service_ggyttcf", "template_32n3n1d", this).then(
+              function () {
+                // Hide spinner, enable button
+                btnSpinner.classList.add("hidden");
+                btnText.style.display = "inline";
+                sendButton.disabled = false;
+
+                // Show success modal with animation
+                const modal = document.getElementById("successModal");
+                const modalContent = document.getElementById("modalContent");
+                modal.classList.remove("hidden");
+                setTimeout(() => {
+                  modalContent.classList.remove("scale-95", "opacity-0");
+                  modalContent.classList.add("scale-100", "opacity-100");
+                }, 10);
+
+                // Reset form
+                name.value = "";
+                email.value = "";
+                phone.value = "";
+                message.value = "";
+              },
+              function (error) {
+                // Hide spinner, enable button
+                btnSpinner.classList.add("hidden");
+                btnText.style.display = "inline";
+                sendButton.disabled = false;
+
+                alert(
+                  "An error occurred while sending your message. Please try again."
+                );
+                console.error("EmailJS error:", error);
+              }
+            );
+          });
+
+        // Initialize scroll animations
+        initScrollAnimations();
+      });
+
+      function closeModal() {
+        const modal = document.getElementById("successModal");
+        const modalContent = document.getElementById("modalContent");
+
+        modalContent.classList.remove("scale-100", "opacity-100");
+        modalContent.classList.add("scale-95", "opacity-0");
+
+        setTimeout(() => {
+          modal.classList.add("hidden");
+        }, 300);
+      }
+
+      function createWaterBubbles() {
+        const container = document.getElementById("water-bubbles-container");
+        for (let i = 0; i < 15; i++) {
+          const bubble = document.createElement("div");
+          bubble.classList.add("water-bubble");
+
+          // Random properties
+          const size = Math.random() * 20 + 10;
+          const left = Math.random() * 100;
+          const animationDuration = Math.random() * 8 + 4;
+          const animationDelay = Math.random() * 5;
+
+          bubble.style.width = `${size}px`;
+          bubble.style.height = `${size}px`;
+          bubble.style.left = `${left}%`;
+          bubble.style.animationDuration = `${animationDuration}s`;
+          bubble.style.animationDelay = `${animationDelay}s`;
+
+          container.appendChild(bubble);
+        }
+      }
+
+      function createParticles(containerId, count) {
+        const container = document.getElementById(containerId);
+        for (let i = 0; i < count; i++) {
+          const particle = document.createElement("div");
+          particle.classList.add("particle");
+
+          // Random properties
+          const size = Math.random() * 5 + 2;
+          const posX = Math.random() * 100;
+          const posY = Math.random() * 100;
+          const animationDuration = Math.random() * 10 + 5;
+          const animationDelay = Math.random() * 5;
+
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${posX}%`;
+          particle.style.top = `${posY}%`;
+          particle.style.animation = `float ${animationDuration}s ease-in-out ${animationDelay}s infinite`;
+
+          container.appendChild(particle);
+        }
+      }
+
+      // Show temporary overlay bar on image click, then hide after 2.5 seconds
+      function showTempOverlay(imgElem) {
+        // Find container div (parent of img)
+        const container = imgElem.parentElement;
+        const tempOverlay = container.querySelector(".temp-overlay");
+        if (!tempOverlay) return;
+
+        // Set overlay text from existing overlay
+        const hoverOverlay = container.querySelector(
+          "div.absolute.inset-0 > h3"
+        );
+        if (hoverOverlay) {
+          tempOverlay.textContent = hoverOverlay.textContent;
+        }
+
+        // Show overlay
+        tempOverlay.classList.add("show");
+
+        // Clear any existing timeout
+        if (tempOverlay._timeout) clearTimeout(tempOverlay._timeout);
+
+        // Hide overlay after 2.5 seconds
+        tempOverlay._timeout = setTimeout(() => {
+          tempOverlay.classList.remove("show");
+        }, 2500);
+      }
+
+      function initScrollAnimations() {
+        const fadeElements = document.querySelectorAll(".fade-in");
+
+        const fadeInObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        fadeElements.forEach((element) => {
+          fadeInObserver.observe(element);
+        });
+      }
+
+      function initializeAnimations() {
+        // Animate elements on page load
+        gsap.from(".hero-bg h1", {
+          duration: 1,
+          y: 50,
+          opacity: 0,
+          ease: "power3.out",
+        });
+        gsap.from(".hero-bg p", {
+          duration: 0.8,
+          y: 30,
+          opacity: 0,
+          ease: "power3.out",
+          delay: 0.3,
+        });
+        gsap.from(".hero-bg a", {
+          duration: 0.8,
+          y: 30,
+          opacity: 0,
+          ease: "power3.out",
+          delay: 0.5,
+        });
+      }
+    </script>
+  </body>
+</html>
